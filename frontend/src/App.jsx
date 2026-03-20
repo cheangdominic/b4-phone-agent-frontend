@@ -27,9 +27,11 @@ function App() {
 
       if (res.ok) {
         alert(data.message);
-        if (!isLogin)
+        if (!isLogin) {
           setIsLogin(true);
-        else window.location.href = "/dashboard";
+        } else {
+          window.location.href = "/dashboard";
+        }
       } else {
         alert(data.error || "Something went wrong");
       }
@@ -57,6 +59,7 @@ function App() {
           transition={{ duration: 0.2, delay: 0.05 }}
           className="bg-white rounded-2xl shadow-lg border border-slate-200 p-6"
         >
+          {/* Toggle */}
           <div className="relative mb-8 bg-slate-100 rounded-lg p-1">
             <div className="relative flex">
               <button
@@ -109,6 +112,7 @@ function App() {
                     Sign in to continue
                   </p>
                 </div>
+
                 <div className="space-y-4">
                   <input
                     name="email"
@@ -118,6 +122,7 @@ function App() {
                     onChange={handleChange}
                     className="w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white"
                   />
+
                   <input
                     name="password"
                     type="password"
@@ -126,6 +131,19 @@ function App() {
                     onChange={handleChange}
                     className="w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white"
                   />
+
+                  <div className="flex justify-end">
+                    <button
+                      type="button"
+                      onClick={() =>
+                        (window.location.href = "/forgot-password")
+                      }
+                      className="text-sm text-blue-600 hover:text-blue-700 hover:underline"
+                    >
+                      Forgot password?
+                    </button>
+                  </div>
+
                   <button
                     type="submit"
                     className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2.5 rounded-lg font-semibold shadow-sm"
@@ -152,6 +170,7 @@ function App() {
                     Join us to get started
                   </p>
                 </div>
+
                 <div className="space-y-4">
                   <input
                     name="email"
@@ -161,6 +180,7 @@ function App() {
                     onChange={handleChange}
                     className="w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white"
                   />
+
                   <input
                     name="password"
                     type="password"
@@ -169,6 +189,7 @@ function App() {
                     onChange={handleChange}
                     className="w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white"
                   />
+
                   <button
                     type="submit"
                     className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2.5 rounded-lg font-semibold shadow-sm"
