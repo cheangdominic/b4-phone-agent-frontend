@@ -3,10 +3,44 @@ import { motion, AnimatePresence } from "framer-motion";
 
 function App() {
   const [isLogin, setIsLogin] = useState(true);
+  const [form, setForm] = useState({ email: "", password: "" });
+
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const endpoint = isLogin
+      ? "http://localhost:3000/login"
+      : "http://localhost:3000/signup";
+
+    try {
+      const res = await fetch(endpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+        credentials: "include",
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        alert(data.message);
+        if (!isLogin)
+          setIsLogin(true);
+        else window.location.href = "/dashboard";
+      } else {
+        alert(data.error || "Something went wrong");
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Network error");
+    }
+  };
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-slate-100">
-      {/* Title Section - Solid color, no gradient */}
       <motion.h1
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -17,14 +51,12 @@ function App() {
       </motion.h1>
 
       <div className="w-full max-w-md px-4">
-        {/* Card Container - Solid white, no blur, simple shadow */}
         <motion.div
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.2, delay: 0.05 }}
           className="bg-white rounded-2xl shadow-lg border border-slate-200 p-6"
         >
-          {/* Slider Toggle - Solid colors, no gradients */}
           <div className="relative mb-8 bg-slate-100 rounded-lg p-1">
             <div className="relative flex">
               <button
@@ -60,8 +92,9 @@ function App() {
 
           <AnimatePresence mode="wait">
             {isLogin ? (
-              <motion.div
+              <motion.form
                 key="login"
+                onSubmit={handleSubmit}
                 initial={{ opacity: 0, x: -15 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: 15 }}
@@ -76,49 +109,35 @@ function App() {
                     Sign in to continue
                   </p>
                 </div>
-
                 <div className="space-y-4">
-                  <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-1.5">
-                      Email Address
-                    </label>
-                    <input
-                      type="email"
-                      placeholder="you@example.com"
-                      className="w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all bg-white"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-1.5">
-                      Password
-                    </label>
-                    <input
-                      type="password"
-                      placeholder="••••••••"
-                      className="w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all bg-white"
-                    />
-                  </div>
-
-                  <div className="flex justify-end">
-                    <button className="text-sm text-blue-600 hover:text-blue-700 font-medium transition-colors">
-                      Forgot password?
-                    </button>
-                  </div>
-
-                  <motion.button
-                    whileHover={{ scale: 1.01 }}
-                    whileTap={{ scale: 0.99 }}
-                    transition={{ duration: 0.1 }}
-                    className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2.5 rounded-lg font-semibold transition-colors shadow-sm"
+                  <input
+                    name="email"
+                    type="text"
+                    placeholder="Email"
+                    value={form.email}
+                    onChange={handleChange}
+                    className="w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white"
+                  />
+                  <input
+                    name="password"
+                    type="password"
+                    placeholder="••••••••"
+                    value={form.password}
+                    onChange={handleChange}
+                    className="w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white"
+                  />
+                  <button
+                    type="submit"
+                    className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2.5 rounded-lg font-semibold shadow-sm"
                   >
                     Sign In
-                  </motion.button>
+                  </button>
                 </div>
-              </motion.div>
+              </motion.form>
             ) : (
-              <motion.div
+              <motion.form
                 key="signup"
+                onSubmit={handleSubmit}
                 initial={{ opacity: 0, x: 15 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -15 }}
@@ -133,56 +152,31 @@ function App() {
                     Join us to get started
                   </p>
                 </div>
-
                 <div className="space-y-4">
-                  <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-1.5">
-                      Full Name
-                    </label>
-                    <input
-                      type="text"
-                      placeholder="John Doe"
-                      className="w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all bg-white"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-1.5">
-                      Email Address
-                    </label>
-                    <input
-                      type="email"
-                      placeholder="you@example.com"
-                      className="w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all bg-white"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-1.5">
-                      Password
-                    </label>
-                    <input
-                      type="password"
-                      placeholder="Create a strong password"
-                      className="w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all bg-white"
-                    />
-                  </div>
-
-                  <motion.button
-                    whileHover={{ scale: 1.01 }}
-                    whileTap={{ scale: 0.99 }}
-                    transition={{ duration: 0.1 }}
-                    className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2.5 rounded-lg font-semibold transition-colors shadow-sm"
+                  <input
+                    name="email"
+                    type="text"
+                    placeholder="Email"
+                    value={form.email}
+                    onChange={handleChange}
+                    className="w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white"
+                  />
+                  <input
+                    name="password"
+                    type="password"
+                    placeholder="Create a strong password"
+                    value={form.password}
+                    onChange={handleChange}
+                    className="w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white"
+                  />
+                  <button
+                    type="submit"
+                    className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2.5 rounded-lg font-semibold shadow-sm"
                   >
                     Create Account
-                  </motion.button>
-
-                  <p className="text-xs text-center text-slate-500 pt-2">
-                    By signing up, you agree to our Terms of Service and Privacy
-                    Policy
-                  </p>
+                  </button>
                 </div>
-              </motion.div>
+              </motion.form>
             )}
           </AnimatePresence>
         </motion.div>
