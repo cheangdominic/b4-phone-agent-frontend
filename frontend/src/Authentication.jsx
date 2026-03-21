@@ -1,8 +1,10 @@
 import React from 'react'
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 
 function Authentication() {
+    const navigate = useNavigate();
     const [isLogin, setIsLogin] = useState(true);
     const [form, setForm] = useState({ email: "", password: "" });
 
@@ -29,7 +31,7 @@ function Authentication() {
         if (res.ok) {
           alert(data.message);
           if (!isLogin) setIsLogin(true);
-          else window.location.href = "/dashboard";
+          else navigate("/dashboard");
         } else {
           alert(data.error || "Something went wrong");
         }
@@ -130,7 +132,7 @@ function Authentication() {
                     <button
                       type="button"
                       onClick={() =>
-                        (window.location.href = "/forgot-password")
+                        (navigate("/forgot-password"))
                       }
                       className="text-sm text-blue-600 hover:text-blue-700 hover:underline"
                     >

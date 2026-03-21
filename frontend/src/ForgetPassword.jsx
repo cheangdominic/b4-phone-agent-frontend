@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 
 function ForgetPassword() {
   const [email, setEmail] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -18,6 +20,7 @@ function ForgetPassword() {
 
       if (res.ok) {
         alert(data.message || "Password reset email sent!");
+        navigate("/");
       } else {
         alert(data.error || "Something went wrong");
       }
@@ -75,7 +78,7 @@ function ForgetPassword() {
               <div className="text-center">
                 <button
                   type="button"
-                  onClick={() => (window.location.href = "/")}
+                  onClick={() => navigate("/")}
                   className="text-sm text-blue-600 hover:underline"
                 >
                   Back to Login
