@@ -125,6 +125,18 @@ function Authentication() {
                     onChange={handleChange}
                     className="w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white"
                   />
+
+                  <div className="flex justify-end">
+                    <button
+                      type="button"
+                      onClick={() =>
+                        (window.location.href = "/forgot-password")
+                      }
+                      className="text-sm text-blue-600 hover:text-blue-700 hover:underline"
+                    >
+                      Forgot password?
+                    </button>
+                  </div>
                   <button
                     type="submit"
                     className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2.5 rounded-lg font-semibold shadow-sm"
