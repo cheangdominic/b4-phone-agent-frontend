@@ -18,27 +18,32 @@ function Authentication() {
         ? "http://localhost:3000/login"
         : "http://localhost:3000/signup";
 
-      try {
-        const res = await fetch(endpoint, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(form),
-          credentials: "include",
-        });
+        try {
+          const res = await fetch(endpoint, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(form),
+            credentials: "include",
+          });
 
-        const data = await res.json();
+          const data = await res.json();
 
-        if (res.ok) {
-          alert(data.message);
-          if (!isLogin) setIsLogin(true);
-          else navigate("/dashboard");
-        } else {
-          alert(data.error || "Something went wrong");
+          if (res.ok) {
+            alert(data.message);
+
+            if (!isLogin) {
+              setIsLogin(true);
+            } else {
+              localStorage.setItem("email", form.email);
+              navigate("/dashboard");
+            }
+          } else {
+            alert(data.error || "Something went wrong");
+          }
+        } catch (err) {
+          console.error(err);
+          alert("Network error");
         }
-      } catch (err) {
-        console.error(err);
-        alert("Network error");
-      }
     };
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-slate-100">
