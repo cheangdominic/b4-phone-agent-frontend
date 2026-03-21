@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import AdminPanel from "./AdminPanel";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 
@@ -78,53 +79,6 @@ function Dashboard() {
         {isAdmin && <AdminPanel />}
       </motion.div>
     </div>
-  );
-}
-
-function AdminPanel() {
-  const [usage, setUsage] = useState(null);
-
-//   useEffect(() => {
-//     const fetchUsage = async () => {
-//       try {
-//         const res = await fetch("http://localhost:3000/api-usage");
-//         const data = await res.json();
-//         setUsage(data);
-//       } catch (err) {
-//         console.error(err);
-//       }
-//     };
-
-//     fetchUsage();
-//   }, []);
-
-  return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      className="grid md:grid-cols-2 gap-6"
-    >
-      <Card
-        title="Total API Calls"
-        value={usage ? usage.total : "Loading..."}
-      />
-      <Card
-        title="Today's API Calls"
-        value={usage ? usage.today : "Loading..."}
-      />
-    </motion.div>
-  );
-}
-
-function Card({ title, value }) {
-  return (
-    <motion.div
-      whileHover={{ scale: 1.02 }}
-      className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm"
-    >
-      <h3 className="text-sm text-slate-500">{title}</h3>
-      <p className="text-3xl font-bold text-slate-800 mt-2">{value}</p>
-    </motion.div>
   );
 }
 
