@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-import AdminPanel from "./AdminPanel";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
+import AdminPanel from "./AdminPanel";
+import UserPanel from "./UserPanel";
 
 function Dashboard() {
   const [isAdmin, setIsAdmin] = useState(null);
@@ -13,11 +14,6 @@ function Dashboard() {
 
     if (!storedEmail) {
       navigate("/Unauthorized");
-      return;
-    }
-
-    if (!storedEmail) {
-      setIsAdmin(false);
       return;
     }
 
@@ -76,7 +72,7 @@ function Dashboard() {
           </button>
         </div>
 
-        {isAdmin && <AdminPanel />}
+        {isAdmin ? <AdminPanel /> : <UserPanel email={email} />}
       </motion.div>
     </div>
   );
