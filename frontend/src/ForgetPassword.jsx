@@ -6,11 +6,13 @@ function ForgetPassword() {
   const [email, setEmail] = useState("");
   const navigate = useNavigate();
 
+  const backendBase = "https://valleybalfour.dev/b4backend";
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      const res = await fetch("http://localhost:3000/forgot-password", {
+      const res = await fetch(`${backendBase}/forgot-password`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email }),

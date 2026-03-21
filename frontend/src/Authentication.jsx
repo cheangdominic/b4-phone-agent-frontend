@@ -1,45 +1,73 @@
-import React from 'react'
-import { useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 
 function Authentication() {
-    const navigate = useNavigate();
-    const [isLogin, setIsLogin] = useState(true);
-    const [form, setForm] = useState({ email: "", password: "" });
+  const navigate = useNavigate();
 
-    const handleChange = (e) => {
-      setForm({ ...form, [e.target.name]: e.target.value });
-    };
+  const [isLogin, setIsLogin] = useState(true);
+  const [isForgot, setIsForgot] = useState(false);
+  const [form, setForm] = useState({
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
 
-    const handleSubmit = async (e) => {
-      e.preventDefault();
-      const endpoint = isLogin
-        ? "http://localhost:3000/login"
-        : "http://localhost:3000/signup";
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
 
-      try {
-        const res = await fetch(endpoint, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(form),
-          credentials: "include",
-        });
+  const backendBase = "https://valleybalfour.dev/b4backend";
 
-        const data = await res.json();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-        if (res.ok) {
-          alert(data.message);
-          if (!isLogin) setIsLogin(true);
-          else navigate("/dashboard");
-        } else {
-          alert(data.error || "Something went wrong");
-        }
-      } catch (err) {
-        console.error(err);
-        alert("Network error");
+    if (isForgot) return handleForgotPassword();
+
+    const endpoint = isLogin ? `${backendBase}/login` : `${backendBase}/signup`;
+
+    try {
+      const res = await fetch(endpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+        credentials: "include",
+      });
+      const data = await res.json();
+
+      if (res.ok) {
+        alert(data.message);
+        if (!isLogin) setIsLogin(true);
+        else navigate("/dashboard");
+      } else {
+        alert(data.error || "Something went wrong");
       }
-    };
+    } catch (err) {
+      console.error(err);
+      alert("Network error");
+    }
+  };
+
+  // Forgot Password
+  const handleForgotPassword = async () => {
+    if (!form.email) return alert("Enter your email");
+
+    try {
+      const res = await fetch(`${backendBase}/forgot-password`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: form.email }),
+      });
+      const data = await res.json();
+      alert(data.message);
+      setIsForgot(false);
+      setIsLogin(true);
+    } catch (err) {
+      console.error(err);
+      alert("Network error");
+    }
+  };
+
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-slate-100">
       <motion.h1
@@ -58,43 +86,46 @@ function Authentication() {
           transition={{ duration: 0.2, delay: 0.05 }}
           className="bg-white rounded-2xl shadow-lg border border-slate-200 p-6"
         >
-          <div className="relative mb-8 bg-slate-100 rounded-lg p-1">
-            <div className="relative flex">
-              <button
-                onClick={() => setIsLogin(true)}
-                className={`relative z-10 w-1/2 py-2.5 text-sm font-semibold transition-colors duration-150 ${
-                  isLogin ? "text-white" : "text-slate-600"
-                }`}
-              >
-                Login
-              </button>
-              <button
-                onClick={() => setIsLogin(false)}
-                className={`relative z-10 w-1/2 py-2.5 text-sm font-semibold transition-colors duration-150 ${
-                  !isLogin ? "text-white" : "text-slate-600"
-                }`}
-              >
-                Sign Up
-              </button>
-              <motion.div
-                className="absolute top-0 left-0 w-1/2 h-full bg-blue-600 rounded-lg"
-                layout
-                transition={{
-                  type: "spring",
-                  stiffness: 500,
-                  damping: 40,
-                  duration: 0.15,
-                }}
-                initial={false}
-                animate={{ x: isLogin ? "0%" : "100%" }}
-              />
+          {!isForgot && (
+            <div className="relative mb-8 bg-slate-100 rounded-lg p-1">
+              <div className="relative flex">
+                <button
+                  onClick={() => setIsLogin(true)}
+                  className={`relative z-10 w-1/2 py-2.5 text-sm font-semibold transition-colors duration-150 ${
+                    isLogin ? "text-white" : "text-slate-600"
+                  }`}
+                >
+                  Login
+                </button>
+                <button
+                  onClick={() => setIsLogin(false)}
+                  className={`relative z-10 w-1/2 py-2.5 text-sm font-semibold transition-colors duration-150 ${
+                    !isLogin ? "text-white" : "text-slate-600"
+                  }`}
+                >
+                  Sign Up
+                </button>
+                <motion.div
+                  className="absolute top-0 left-0 w-1/2 h-full bg-blue-600 rounded-lg"
+                  layout
+                  transition={{
+                    type: "spring",
+                    stiffness: 500,
+                    damping: 40,
+                    duration: 0.15,
+                  }}
+                  initial={false}
+                  animate={{ x: isLogin ? "0%" : "100%" }}
+                />
+              </div>
             </div>
-          </div>
+          )}
 
           <AnimatePresence mode="wait">
-            {isLogin ? (
+            {isForgot ? (
+              // Forgot Password Form
               <motion.form
-                key="login"
+                key="forgot"
                 onSubmit={handleSubmit}
                 initial={{ opacity: 0, x: -15 }}
                 animate={{ opacity: 1, x: 0 }}
@@ -104,71 +135,64 @@ function Authentication() {
               >
                 <div className="text-center">
                   <h2 className="text-2xl font-bold text-slate-800">
-                    Welcome Back
+                    Forgot Password
                   </h2>
                   <p className="text-slate-500 text-sm mt-1">
-                    Sign in to continue
+                    Enter your email to receive a reset link
                   </p>
                 </div>
                 <div className="space-y-4">
                   <input
                     name="email"
-                    type="text"
+                    type="email"
                     placeholder="Email"
                     value={form.email}
                     onChange={handleChange}
                     className="w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white"
                   />
-                  <input
-                    name="password"
-                    type="password"
-                    placeholder="••••••••"
-                    value={form.password}
-                    onChange={handleChange}
-                    className="w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white"
-                  />
-
-                  <div className="flex justify-end">
-                    <button
-                      type="button"
-                      onClick={() =>
-                        (navigate("/forgot-password"))
-                      }
-                      className="text-sm text-blue-600 hover:text-blue-700 hover:underline"
-                    >
-                      Forgot password?
-                    </button>
-                  </div>
                   <button
                     type="submit"
                     className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2.5 rounded-lg font-semibold shadow-sm"
                   >
-                    Sign In
+                    Send Reset Link
                   </button>
+                  <div className="text-center mt-2">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setIsForgot(false);
+                        setIsLogin(true);
+                      }}
+                      className="text-sm text-blue-600 hover:text-blue-700 hover:underline"
+                    >
+                      Back to Login
+                    </button>
+                  </div>
                 </div>
               </motion.form>
             ) : (
+              // Login / Signup Form
               <motion.form
-                key="signup"
+                key={isLogin ? "login" : "signup"}
                 onSubmit={handleSubmit}
-                initial={{ opacity: 0, x: 15 }}
+                initial={{ opacity: 0, x: isLogin ? -15 : 15 }}
                 animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -15 }}
+                exit={{ opacity: 0, x: isLogin ? 15 : -15 }}
                 transition={{ duration: 0.15 }}
                 className="space-y-4"
               >
                 <div className="text-center">
                   <h2 className="text-2xl font-bold text-slate-800">
-                    Create Account
+                    {isLogin ? "Welcome Back" : "Create Account"}
                   </h2>
                   <p className="text-slate-500 text-sm mt-1">
-                    Join us to get started
+                    {isLogin ? "Sign in to continue" : "Join us to get started"}
                   </p>
                 </div>
                 <div className="space-y-4">
                   <input
                     name="email"
-                    type="text"
+                    type="email"
                     placeholder="Email"
                     value={form.email}
                     onChange={handleChange}
@@ -177,16 +201,41 @@ function Authentication() {
                   <input
                     name="password"
                     type="password"
-                    placeholder="Create a strong password"
+                    placeholder={
+                      isLogin ? "••••••••" : "Create a strong password"
+                    }
                     value={form.password}
                     onChange={handleChange}
                     className="w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white"
                   />
+                  {!isLogin && (
+                    <input
+                      name="confirmPassword"
+                      type="password"
+                      placeholder="Confirm password"
+                      value={form.confirmPassword}
+                      onChange={handleChange}
+                      className="w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white"
+                    />
+                  )}
+                  {isLogin && (
+                    <div className="flex justify-end">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setIsForgot(true);
+                        }}
+                        className="text-sm text-blue-600 hover:text-blue-700 hover:underline"
+                      >
+                        Forgot password?
+                      </button>
+                    </div>
+                  )}
                   <button
                     type="submit"
                     className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2.5 rounded-lg font-semibold shadow-sm"
                   >
-                    Create Account
+                    {isLogin ? "Sign In" : "Create Account"}
                   </button>
                 </div>
               </motion.form>
@@ -198,4 +247,4 @@ function Authentication() {
   );
 }
 
-export default Authentication
+export default Authentication;
