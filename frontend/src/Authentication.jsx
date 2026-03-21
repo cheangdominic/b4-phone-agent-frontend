@@ -114,7 +114,7 @@ function Authentication() {
                   <input
                     name="email"
                     type="text"
-                    placeholder="Email"
+                    placeholder="Email address"
                     value={form.email}
                     onChange={handleChange}
                     className="w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white"
@@ -169,7 +169,7 @@ function Authentication() {
                   <input
                     name="email"
                     type="text"
-                    placeholder="Email"
+                    placeholder="Email address"
                     value={form.email}
                     onChange={handleChange}
                     className="w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white"
