@@ -70,7 +70,7 @@ function ForgetPassword() {
 
               <button
                 type="submit"
-                className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2.5 rounded-lg font-semibold shadow-sm"
+                className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2.5 rounded-lg font-semibold shadow-sm cursor-pointer"
               >
                 Send Reset Link
               </button>
@@ -79,7 +79,7 @@ function ForgetPassword() {
                 <button
                   type="button"
                   onClick={() => navigate("/")}
-                  className="text-sm text-blue-600 hover:underline"
+                  className="text-sm text-blue-600 hover:underline cursor-pointer"
                 >
                   Back to Login
                 </button>

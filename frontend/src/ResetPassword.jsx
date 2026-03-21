@@ -79,7 +79,7 @@ function ResetPassword() {
         </p>
         <button
           onClick={() => navigate("/forgot-password")}
-          className="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg font-semibold"
+          className="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg font-semibold cursor-pointer"
         >
           Request New Link
         </button>
@@ -124,7 +124,7 @@ function ResetPassword() {
             />
             <button
               type="submit"
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2.5 rounded-lg font-semibold shadow-sm"
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2.5 rounded-lg font-semibold shadow-sm cursor-pointer"
             >
               Reset Password
             </button>

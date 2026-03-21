@@ -63,7 +63,7 @@ function Authentication() {
               <button
                 onClick={() => setIsLogin(true)}
                 className={`relative z-10 w-1/2 py-2.5 text-sm font-semibold transition-colors duration-150 ${
-                  isLogin ? "text-white" : "text-slate-600"
+                  isLogin ? "text-white" : "text-slate-600 cursor-pointer"
                 }`}
               >
                 Login
@@ -71,7 +71,7 @@ function Authentication() {
               <button
                 onClick={() => setIsLogin(false)}
                 className={`relative z-10 w-1/2 py-2.5 text-sm font-semibold transition-colors duration-150 ${
-                  !isLogin ? "text-white" : "text-slate-600"
+                  !isLogin ? "text-white" : "text-slate-600 cursor-pointer"
                 }`}
               >
                 Sign Up
@@ -134,14 +134,14 @@ function Authentication() {
                       onClick={() =>
                         (navigate("/forgot-password"))
                       }
-                      className="text-sm text-blue-600 hover:text-blue-700 hover:underline"
+                      className="text-sm cursor-pointer text-blue-600 hover:text-blue-700 hover:underline"
                     >
                       Forgot password?
                     </button>
                   </div>
                   <button
                     type="submit"
-                    className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2.5 rounded-lg font-semibold shadow-sm"
+                    className="w-full cursor-pointer bg-blue-600 hover:bg-blue-700 text-white py-2.5 rounded-lg font-semibold shadow-sm"
                   >
                     Sign In
                   </button>
@@ -184,7 +184,7 @@ function Authentication() {
                   />
                   <button
                     type="submit"
-                    className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2.5 rounded-lg font-semibold shadow-sm"
+                    className="w-full cursor-pointer bg-blue-600 hover:bg-blue-700 text-white py-2.5 rounded-lg font-semibold shadow-sm"
                   >
                     Create Account
                   </button>
