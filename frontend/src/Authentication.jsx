@@ -15,8 +15,8 @@ function Authentication() {
     const handleSubmit = async (e) => {
       e.preventDefault();
       const endpoint = isLogin
-        ? "http://localhost:3000/login"
-        : "http://localhost:3000/signup";
+        ? "http://valleybalfour.dev/b4backend/login"
+        : "http://valleybalfour.dev/b4backend/signup";
 
         try {
           const res = await fetch(endpoint, {
