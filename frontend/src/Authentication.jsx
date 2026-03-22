@@ -1,50 +1,50 @@
-import React from 'react'
+import React from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 
 function Authentication() {
-    const navigate = useNavigate();
-    const [isLogin, setIsLogin] = useState(true);
-    const [form, setForm] = useState({ email: "", password: "" });
+  const navigate = useNavigate();
+  const [isLogin, setIsLogin] = useState(true);
+  const [form, setForm] = useState({ email: "", password: "" });
 
-    const handleChange = (e) => {
-      setForm({ ...form, [e.target.name]: e.target.value });
-    };
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
 
-    const handleSubmit = async (e) => {
-      e.preventDefault();
-      const endpoint = isLogin
-        ? "http://valleybalfour.dev/b4backend/login"
-        : "http://valleybalfour.dev/b4backend/signup";
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const endpoint = isLogin
+      ? "https://valleybalfour.dev/b4backend/login"
+      : "https://valleybalfour.dev/b4backend/signup";
 
-        try {
-          const res = await fetch(endpoint, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(form),
-            credentials: "include",
-          });
+    try {
+      const res = await fetch(endpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+        credentials: "include",
+      });
 
-          const data = await res.json();
+      const data = await res.json();
 
-          if (res.ok) {
-            alert(data.message);
+      if (res.ok) {
+        alert(data.message);
 
-            if (!isLogin) {
-              setIsLogin(true);
-            } else {
-              localStorage.setItem("email", form.email);
-              navigate("/dashboard");
-            }
-          } else {
-            alert(data.error || "Something went wrong");
-          }
-        } catch (err) {
-          console.error(err);
-          alert("Network error");
+        if (!isLogin) {
+          setIsLogin(true);
+        } else {
+          localStorage.setItem("email", form.email);
+          navigate("/dashboard");
         }
-    };
+      } else {
+        alert(data.error || "Something went wrong");
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Network error");
+    }
+  };
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-slate-100">
       <motion.h1
@@ -136,9 +136,7 @@ function Authentication() {
                   <div className="flex justify-end">
                     <button
                       type="button"
-                      onClick={() =>
-                        (navigate("/forgot-password"))
-                      }
+                      onClick={() => navigate("/forgot-password")}
                       className="text-sm cursor-pointer text-blue-600 hover:text-blue-700 hover:underline"
                     >
                       Forgot password?
@@ -203,4 +201,4 @@ function Authentication() {
   );
 }
 
-export default Authentication
+export default Authentication;

@@ -22,7 +22,7 @@ function Dashboard() {
     const checkAdmin = async () => {
       try {
         const res = await fetch(
-          `http://valleybalfour.dev/b4backend/is-admin?email=${storedEmail}`,
+          `https://valleybalfour.dev/b4backend/is-admin?email=${storedEmail}`,
         );
         const data = await res.json();
         setIsAdmin(data.admin);

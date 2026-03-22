@@ -417,7 +417,6 @@ function AdminPanel() {
             ${draggedCard === index ? "opacity-50" : "hover:shadow-md"}
           `}
         >
-          {/* Drag Handle */}
           <div
             className="absolute top-3 left-3 cursor-grab active:cursor-grabbing p-1 hover:bg-slate-100 rounded-lg transition opacity-0 group-hover:opacity-100"
             onMouseDown={(e) => e.stopPropagation()}
@@ -437,7 +436,6 @@ function AdminPanel() {
       animate={{ opacity: 1 }}
       className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 px-6 py-8"
     >
-      {/* Header */}
       <div className="mb-8">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2 text-sm text-slate-500 bg-white px-4 py-2 rounded-full shadow-sm">
@@ -447,7 +445,6 @@ function AdminPanel() {
         </div>
       </div>
 
-      {/* Bento Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 auto-rows-[minmax(120px,auto)]">
         <AnimatePresence>
           {cards.map((card, index) => renderCard(card, index))}

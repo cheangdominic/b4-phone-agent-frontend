@@ -116,7 +116,7 @@ function UserPanel({ email, onLogout }) {
     setFormSubmitting(true);
 
     try {
-      const res = await fetch(`http://localhost:3000/b4backend/call`, {
+      const res = await fetch(`https://valleybalfour.dev/b4backend/call`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

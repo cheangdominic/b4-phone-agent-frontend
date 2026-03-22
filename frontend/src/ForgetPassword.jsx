@@ -11,7 +11,7 @@ function ForgetPassword() {
 
     try {
       const res = await fetch(
-        "http://valleybalfour.dev/b4backend/forgot-password",
+        "https://valleybalfour.dev/b4backend/forgot-password",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

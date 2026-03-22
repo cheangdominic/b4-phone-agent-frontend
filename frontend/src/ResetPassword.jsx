@@ -18,7 +18,7 @@ function ResetPassword() {
       return;
     }
 
-    fetch(`http://valleybalfour.dev/b4backend/verify-token?token=${token}`)
+    fetch(`https://valleybalfour.dev/b4backend/verify-token?token=${token}`)
       .then((res) => res.json())
       .then((data) => setTokenValid(data.valid))
       .catch((err) => {
@@ -32,7 +32,7 @@ function ResetPassword() {
 
     try {
       const res = await fetch(
-        `http://localhost:3000/reset-password?token=${token}`,
+        `https://localhost:3000/reset-password?token=${token}`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
