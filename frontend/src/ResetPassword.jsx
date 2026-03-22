@@ -18,7 +18,7 @@ function ResetPassword() {
       return;
     }
 
-    fetch(`https://valleybalfour.dev/b4backend/verify-token?token=${token}`)
+    fetch(`http://localhost:3000/verify-token?token=${token}`)
       .then((res) => res.json())
       .then((data) => setTokenValid(data.valid))
       .catch((err) => {
