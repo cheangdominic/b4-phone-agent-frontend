@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 
-function Authentication() {
+function Authentication({ setToken }) {
   const navigate = useNavigate();
   const [isLogin, setIsLogin] = useState(true);
   const [form, setForm] = useState({ email: "", password: "" });
@@ -34,6 +34,8 @@ function Authentication() {
         if (!isLogin) {
           setIsLogin(true);
         } else {
+          setToken(data.token);
+          localStorage.setItem("token", data.token);
           localStorage.setItem("email", form.email);
           navigate("/dashboard");
         }
