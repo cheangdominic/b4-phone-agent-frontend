@@ -4,36 +4,46 @@ import { motion } from "framer-motion";
 import AdminPanel from "./AdminPanel";
 import UserPanel from "./UserPanel";
 
-function Dashboard() {
+function Dashboard({ token, handleLogout }) {
   const [isAdmin, setIsAdmin] = useState(null);
   const [email, setEmail] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
-    const storedEmail = localStorage.getItem("email");
 
-    if (!storedEmail) {
-      navigate("/Unauthorized");
+    if (!token) {
+      navigate("/unauthorized");
       return;
     }
 
-    setEmail(storedEmail);
-
-    const checkAdmin = async () => {
+    const fetchSecureData = async () => {
       try {
-        const res = await fetch(
-          `http://localhost:3000/is-admin?email=${storedEmail}`,
-        );
+        const res = await fetch("http://localhost:3000/my-dashboard", {
+          method: "GET",
+          headers: {
+            "Authorization": `Bearer ${token}`
+          }
+        });
+
+        if (!res.ok) {
+          throw new Error("Invalid or expired token");
+        }
+
         const data = await res.json();
-        setIsAdmin(data.admin);
+
+        setEmail(data.email);
+        setIsAdmin(data.is_admin === 1 || data.is_admin === true);
+
       } catch (err) {
-        console.error(err);
-        setIsAdmin(false);
+        console.error("Security caught a bad token:", err);
+        handleLogout();
+        navigate("/unauthorized");
       }
     };
 
-    checkAdmin();
-  }, []);
+    fetchSecureData();
+  }, [token, navigate, handleLogout]);
+
 
   if (isAdmin === null) {
     return (
@@ -62,10 +72,7 @@ function Dashboard() {
             <p className="text-slate-500 mt-1">Welcome back, {email}</p>
           </div>
           <button
-            onClick={() => {
-              localStorage.removeItem("email");
-              window.location.href = "/";
-            }}
+            onClick={handleLogout}
             className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-semibold shadow-sm cursor-pointer"
           >
             Logout
