@@ -7,6 +7,11 @@ import NotFound from "./NotFound.jsx";
 import Unauthorized from "./Unauthorized.jsx";
 
 function App() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [token, setToken] = useState(localStorage.getItem('token') || null); 
+  const [error, setError] = useState('');
+
   return (
     <div>
       <Routes>
