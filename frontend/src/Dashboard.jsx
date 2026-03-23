@@ -18,12 +18,15 @@ function Dashboard({ token, handleLogout }) {
 
     const fetchSecureData = async () => {
       try {
-        const res = await fetch("http://localhost:3000/my-dashboard", {
-          method: "GET",
-          headers: {
-            "Authorization": `Bearer ${token}`
-          }
-        });
+        const res = await fetch(
+          "https://valleybalfour.dev/b4backend/my-dashboard",
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          },
+        );
 
         if (!res.ok) {
           throw new Error("Invalid or expired token");
