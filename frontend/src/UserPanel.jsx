@@ -23,9 +23,29 @@ function UserPanel({ email, onLogout }) {
   useEffect(() => {
     if (email) {
       fetchConversations();
-      setApiUsage({ used: 5, limit: 20, remaining: 15 });
+      fetchApiUsage();
     }
   }, [email]);
+
+  const fetchApiUsage = async () => {
+    try {
+      const token = localStorage.getItem("token");
+
+      const res = await fetch("http://localhost:3000/api-usage", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        setApiUsage(data);
+      }
+    } catch (err) {
+      console.error("API usage fetch error:", err);
+    }
+  };
 
   const fetchConversations = async () => {
     try {
