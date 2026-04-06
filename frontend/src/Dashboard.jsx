@@ -21,8 +21,8 @@ function Dashboard({ token, handleLogout }) {
         const res = await fetch("http://localhost:3000/my-dashboard", {
           method: "GET",
           headers: {
-            "Authorization": `Bearer ${token}`
-          }
+            Authorization: `Bearer ${token}`,
+          },
         });
 
         if (!res.ok) {
