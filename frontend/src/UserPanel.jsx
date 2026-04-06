@@ -21,7 +21,7 @@ function UserPanel({ email, onLogout }) {
     if (email) {
       fetchConversations(1);
       const token = localStorage.getItem("token");
-      fetch("http://localhost:3000/b4backend/api-usage", {
+      fetch("http://localhost:3000/api-usage", {
         headers: { Authorization: `Bearer ${token}` },
       })
         .then((r) => r.json())
