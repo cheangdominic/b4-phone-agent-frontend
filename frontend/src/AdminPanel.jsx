@@ -32,7 +32,7 @@ import {
   AlertCircle,
 } from "lucide-react";
 
-const BASE_URL = "https://valleybalfour.dev/b4backend";
+const BASE_URL = "http://localhost:3000";
 
 function AdminPanel() {
   const [cards, setCards] = useState([]);

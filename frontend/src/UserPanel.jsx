@@ -21,7 +21,7 @@ function UserPanel({ email, onLogout }) {
     if (email) {
       fetchConversations(1);
       const token = localStorage.getItem("token");
-      fetch("https://valleybalfour.dev/b4backend/api-usage", {
+      fetch("http://localhost:3000/b4backend/api-usage", {
         headers: { Authorization: `Bearer ${token}` },
       })
         .then((r) => r.json())
@@ -35,10 +35,9 @@ function UserPanel({ email, onLogout }) {
   const fetchConversations = async (page = 1) => {
     try {
       const token = localStorage.getItem("token");
-      const res = await fetch(
-        `https://valleybalfour.dev/b4backend/my-calls?page=${page}`,
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
+      const res = await fetch(`http://localhost:3000/my-calls?page=${page}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       if (res.ok) {
         const data = await res.json();
         setConversations(Array.isArray(data.calls) ? data.calls : []);
@@ -60,8 +59,8 @@ function UserPanel({ email, onLogout }) {
       attempts++;
       try {
         const res = await fetch(
-          `https://valleybalfour.dev/b4backend/call-status-check?call_id=${callId}`,
-          { headers: { Authorization: `Bearer ${token}` } }
+          `http://localhost:3000/call-status-check?call_id=${callId}`,
+          { headers: { Authorization: `Bearer ${token}` } },
         );
         if (res.ok) {
           const data = await res.json();
@@ -104,7 +103,7 @@ function UserPanel({ email, onLogout }) {
     setFormSubmitting(true);
     try {
       const token = localStorage.getItem("token");
-      const res = await fetch(`https://valleybalfour.dev/b4backend/call`, {
+      const res = await fetch(`http://localhost:3000/b4backend/call`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -10,14 +10,11 @@ function ForgetPassword() {
     e.preventDefault();
 
     try {
-      const res = await fetch(
-        "https://valleybalfour.dev/b4backend/forgot-password",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email }),
-        },
-      );
+      const res = await fetch("http://localhost:3000/forgot-password", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
 
       const data = await res.json();
 
